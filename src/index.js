@@ -8,7 +8,8 @@ import thunk from 'redux-thunk';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import messageReducer from './redux/reducers/messageReducer';
 import { insertMessage } from './redux/actions/messageActions';
-
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { BrowserRouter } from "react-router-dom";
 
 const rootReducer = combineReducers({
   messageReducer,
@@ -18,7 +19,6 @@ const store = createStore(rootReducer, applyMiddleware(thunk));
 
 const webSocket = new WebSocket('ws://' + window.location.host.split(':')[0] + (window.location.port && `:${window.location.port}`) + '/websocket');
 
-
 webSocket.onmessage = (message) => {
   console.log(message)
   store.dispatch(insertMessage(message.data));
@@ -26,7 +26,9 @@ webSocket.onmessage = (message) => {
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </Provider>
   , document.getElementById('root'));
 
