@@ -14,6 +14,21 @@ module.exports = { // pm2 start process.config.js
       name: 'websocket',
       script: './server/websocket.js',
       watch: true,
+    },
+    {
+      name: 'frontend',
+      script: './server/frontend.js',
+      watch: true
+    },
+    {
+      name: 'authservice',
+      script: './server/authService.js',
+      watch: true
+    },
+    {
+      name: 'listingService',
+      script: './server/listingService.js',
+      watch: true
     }
   ],
 };

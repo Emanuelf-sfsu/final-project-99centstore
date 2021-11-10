@@ -1,8 +1,9 @@
 const WebSocket = require('ws');
+require('dotenv').config();
 const redis = require('redis');
 const client = redis.createClient({ host: process.env.REDIS_HOST || 'localhost' });
 
-const wss = new WebSocket.Server({ port: 6000 });
+const wss = new WebSocket.Server({ port: process.env.WEBSOCKET_HOST });
 
 wss.on('connection', (ws) => {
   console.log('Someone has connected');
