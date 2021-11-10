@@ -8,7 +8,8 @@ import LoginPage from './LoginPage/LoginPage';
 import ViewListing from './ViewListing/ViewListing';
 import Listings from './Listings/Listings';
 import CreateListing from './CreateListing/CreateListing';
-
+import Container from 'react-bootstrap/Container'
+import NavbarComponent from './NavbarComponent';
 const App = () => {
   const text = useSelector(state => state.messageReducer.text);
   const messages = useSelector(state => state.messageReducer.messages);
@@ -33,7 +34,8 @@ const App = () => {
   // };
 
   return (
-    <div className="App">
+    <Container className="App">
+      <NavbarComponent />
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/createListing" element={<CreateListing />} />
@@ -41,7 +43,7 @@ const App = () => {
         <Route exact path='/listing' element={<Listings />} />
         <Route path="/" element={<Navigate replace to="/listing" />} />
       </Routes>
-    </div>
+    </Container>
   );
 };
 
