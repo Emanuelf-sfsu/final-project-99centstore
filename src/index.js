@@ -5,22 +5,22 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
-import { createStore, combineReducers, applyMiddleware } from 'redux';
-import messageReducer from './redux/reducers/messageReducer';
+import { createStore, applyMiddleware } from 'redux';
 import { insertMessage } from './redux/actions/messageActions';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter } from "react-router-dom";
+import rootReducer from './redux/reducers/rootReducer';
 
-const rootReducer = combineReducers({
-  messageReducer,
-});
+// const rootReducer = combineReducers({
+//   messageReducer,
+// });
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
 
 const webSocket = new WebSocket('ws://' + window.location.host.split(':')[0] + (window.location.port && `:${window.location.port}`) + '/websocket');
 
 webSocket.onmessage = (message) => {
-  console.log(message)
+  console.log(store)
   store.dispatch(insertMessage(message.data));
 };
 

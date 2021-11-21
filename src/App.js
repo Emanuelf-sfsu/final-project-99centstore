@@ -8,9 +8,10 @@ import LoginPage from './LoginPage/LoginPage';
 import ViewListing from './ViewListing/ViewListing';
 import Listings from './Listings/Listings';
 import CreateListing from './CreateListing/CreateListing';
+import Registration from './Registration/Registration';
 import Container from 'react-bootstrap/Container'
 import NavbarComponent from './NavbarComponent';
-const App = () => {
+const App = ({ store }) => {
   const text = useSelector(state => state.messageReducer.text);
   const messages = useSelector(state => state.messageReducer.messages);
   const dispatch = useDispatch();
@@ -42,6 +43,7 @@ const App = () => {
         <Route path="/viewListing/:id" element={<ViewListing />} />
         <Route exact path='/listing' element={<Listings />} />
         <Route path="/" element={<Navigate replace to="/listing" />} />
+        <Route path="/registration" element={<Registration store={store}/>} />
       </Routes>
     </Container>
   );
