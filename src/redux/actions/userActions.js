@@ -2,7 +2,7 @@ import axios from "axios"
 
 export const setEmail = email => {
     console.log('inside action', email)
-    return{
+    return {
         type: 'USER_SET_EMAIL',
         payload: email
     }
@@ -16,11 +16,11 @@ export const setPassword = password => {
     }
 }
 
-export const registerUser = (dispatch, getState) => {
+export const registerUser = () => (dispatch, getState) => {
     console.log('registerUser')
-    
     const { userReducer } = getState();
-    console.loge('test', userReducer.email)
+    console.log(userReducer);
+    console.log('test', userReducer.email)
     const body = {
         email: userReducer.email,
         password: userReducer.password
@@ -34,5 +34,5 @@ export const registerUser = (dispatch, getState) => {
 }
 
 export const loginUser = () => {
-    
+
 }
