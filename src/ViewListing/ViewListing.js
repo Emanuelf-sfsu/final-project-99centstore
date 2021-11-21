@@ -7,6 +7,8 @@ import { MOCK_LISTING } from '../../src/Listings/mockListing';
 
 
 const ViewListing = (image,title,price) => {
+    let navigate = useNavigate();
+    
     // View Individual Listing based on ID
     // Change view based on whether user is Admin / user
     // User can send enquiries here

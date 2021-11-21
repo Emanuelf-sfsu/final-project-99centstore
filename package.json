@@ -15,7 +15,6 @@
     "react": "^16.8.1",
     "react-bootstrap": "^2.0.2",
     "react-dom": "^16.8.1",
-    "react-redist": "^1.0.10",
     "react-redux": "^7.2.5",
     "react-router-dom": "^6.0.0",
     "react-scripts": "2.1.5",
