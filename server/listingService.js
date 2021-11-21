@@ -8,7 +8,7 @@ const client = redis.createClient({ host: process.env.REDIS_HOST || 'localhost' 
 // monogo init
 const url = process.env.MONGO_HOST || 'mongodb://localhost:27017';
 const mongoClient = new MongoClient(url);
-const listingCollection = process.env.LISTING_COLLECTION;
+const listingCollection = 'listingCollection';
 mongoClient.connect((err) => {
   if (err) console.log(err);
   const db = mongoClient.db(process.env.MONGOCLIENT_DB);
@@ -17,13 +17,21 @@ mongoClient.connect((err) => {
   app.use(bodyParser.json());
   // sorry for spelling wrong :(
   app.post('/listingService/createListing', (req, res) => {
-      // Create Account Service
-    console.log(req.body);
-    db.collection(listingCollection).insertOne({ data: req.body.message })
-      .then(() => console.log('db insert worked'))
-      .catch((e) => console.log(e));
-    client.publish('testPublish', req.body.message);
-    res.send('ok');
+    //   // Create Account Service
+    // console.log(req.body);
+    // db.collection(listingCollection).insertOne({ data: req.body.message })
+    //   .then(() => console.log('db insert worked'))
+    //   .catch((e) => console.log(e));
+    // client.publish('testPublish', req.body.message);
+    // res.send('ok');
+       // Create Account Service
+       console.log(req.body);
+       db.collection(listingCollection).insertOne({ data: req.body })
+         .then(() => console.log('db insert worked'))
+         .catch((e) => console.log(e));
+       client.publish('testPublish', req.body);
+       res.send('ok');
+
   });
 
   app.get('/listingService/getAllListing', (req, res) => {
