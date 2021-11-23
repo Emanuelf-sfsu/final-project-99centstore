@@ -4,7 +4,6 @@ const bodyParser = require('body-parser');
 const { MongoClient } = require('mongodb');
 const redis = require('redis');
 const client = redis.createClient({ host: process.env.REDIS_HOST || 'localhost' });
-
 // monogo init
 const url = process.env.MONGO_HOST || 'mongodb://localhost:27017';
 const mongoClient = new MongoClient(url);
@@ -17,13 +16,18 @@ mongoClient.connect((err) => {
   app.use(bodyParser.json());
   // sorry for spelling wrong :(
   app.post('/listingService/createListing', (req, res) => {
-      // Create Account Service
-    console.log(req.body);
-    db.collection(listingCollection).insertOne({ data: req.body.message })
-      .then(() => console.log('db insert worked'))
-      .catch((e) => console.log(e));
-    client.publish('testPublish', req.body.message);
-    res.send('ok');
+    // Create Account Service
+    let insertId;
+    const { title, desc, price } = req.body;
+    db.collection(listingCollection).insertOne({ title, desc, price })
+      .then((data) => {
+        insertId = data.insertedId;
+        const obj = { title, desc, price, insertId }
+        client.publish('testPublish', obj);
+        res.json(obj);
+      })
+      .catch((e) => res.status(400));
+
   });
 
   app.get('/listingService/getAllListing', (req, res) => {

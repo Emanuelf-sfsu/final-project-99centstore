@@ -46,6 +46,14 @@ app.all('/listingService*', (req, res) => {
 });
 
 
+const imageService = 'http://localhost:5003';
+console.log(`Image Service end proxies to: ${imageService}`);
+app.all('/imageService*', (req, res) => {
+  // for frontend
+  console.log('image service')
+  apiProxy.web(req, res, { target: imageService });
+});
+
 const websocketHost = process.env.WEBSOCKET_HOST_URL || 'http://localhost:6000/websocket';
 console.log(`WebSocket end proxies to: ${websocketHost}`);
 app.all('/websocket*', (req, res) => {
