@@ -22,9 +22,10 @@ mongoClient.connect((err) => {
     const app = express();
     app.use(bodyParser.json(), fileupload());
     app.post('/imageService/process', (req, res) => {
+        console.log(req.body.insertId)
         const obj = {
-            image: req.files.imageFile,
-            insertId: req.insertId
+            image: req.body.imageFile,
+            insertId: req.body.insertId
         }
         producer.send(obj)
         res.send('ok');

@@ -2,8 +2,9 @@ const express = require('express');
 require('dotenv').config();
 const server = require('http');
 const httpProxy = require('http-proxy');
-
+var cors = require('cors');
 const app = express();
+app.use(cors())
 const appServer = server.createServer(app);
 const apiProxy = httpProxy.createProxyServer(app);
 
