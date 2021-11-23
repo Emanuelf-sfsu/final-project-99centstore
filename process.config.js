@@ -34,6 +34,11 @@ module.exports = { // pm2 start process.config.js
       name: 'imageService',
       script: './server/imageService.js',
       watch: true
+    },
+    {
+      name: 'jobWorker',
+      script: './kafka/jobWorker.js',
+      watch: true
     }
   ],
 };

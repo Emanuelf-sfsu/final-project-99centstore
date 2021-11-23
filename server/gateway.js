@@ -9,7 +9,7 @@ const appServer = server.createServer(app);
 const apiProxy = httpProxy.createProxyServer(app);
 
 const wsProxy = httpProxy.createProxyServer({
-  target: process.env.WEBSOCKET_HOST || 'http://localhost:6000',
+  target: process.env.WEBSOCKET_HOST || 'http://localhost:5500',
   ws: true,
 });
 
@@ -55,7 +55,7 @@ app.all('/imageService*', (req, res) => {
   apiProxy.web(req, res, { target: imageService });
 });
 
-const websocketHost = process.env.WEBSOCKET_HOST_URL || 'http://localhost:6000/websocket';
+const websocketHost = process.env.WEBSOCKET_HOST_URL || 'http://localhost:5500/websocket';
 console.log(`WebSocket end proxies to: ${websocketHost}`);
 app.all('/websocket*', (req, res) => {
   console.log('incoming ws');

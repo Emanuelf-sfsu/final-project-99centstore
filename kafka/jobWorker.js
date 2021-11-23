@@ -1,7 +1,7 @@
 const KafkaConsumer = require('./KafkaConsumer');
 const sharp = require('sharp');
 const consumer = new KafkaConsumer('jobWork');
-const { MongoClient,ObjectId } = require('mongodb');
+const { MongoClient, ObjectId } = require('mongodb');
 require('dotenv').config();
 const redis = require('redis');
 const client = redis.createClient({ host: process.env.REDIS_HOST || 'localhost' });
@@ -28,27 +28,24 @@ const resizeBase64 = async (base64Image, maxHeight = 640, maxWidth = 640) => {
 mongoClient.connect((err) => {
   if (err) console.log(err);
   const db = mongoClient.db(process.env.MONGOCLIENT_DB || "centStoreDB");
-  consumer.on('message', (message) => {
+  consumer.on('message', async (message) => {
     const obj = (JSON.parse(message.value));
     const { image, insertId } = obj;
     const id = new ObjectId(insertId);
-    console.log(id);
-    db.collection(listingCollection).findOne({"_id":id}).then(data=>console.log(data))
-    resizeBase64(image, 500, 500).then(data => {
-      db.collection(listingCollection).updateOne({ _id: id }, {
-        $set: {
-          image500: data
-        }
-      })
-    }).catch(err => console.log(err));
-    resizeBase64(image, 100, 100).then(data => {
-      db.collection(listingCollection).updateOne({ '_id': id }, {
-        $set: {
-          image100: data
-        }
-      }).then(res => console.log(res.matchedCount)).catch(err => console.log("err"))
-    }).catch(err => console.log(err));
-
+    const image500 = await resizeBase64(image, 500, 500);
+    const image100 = await resizeBase64(image, 100, 100);
+    db.collection(listingCollection).updateOne({ '_id': id }, {
+      $set: {
+        image100: image100,
+        image500: image500
+      }
+    }).then(res => {
+      const obj = {
+        insertId,
+        image100
+      }
+      client.publish('testPublish', obj);
+    }).catch(err => console.log("err"))
   });
 });
 

@@ -24,6 +24,17 @@ const CreateListing = () => {
         }).catch(err => console.log(err))
     };
 
+    function getBase64(file) {
+        let reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function () {
+            setFile(reader.result)
+        };
+        reader.onerror = function (error) {
+            console.log('Error: ', error);
+        };
+    }
+
     return (
         <Form>
             <h4 className="mt-4">Item for sale</h4>
@@ -41,7 +52,7 @@ const CreateListing = () => {
             </InputGroup>
             <Form.Group controlId="formFile" className="mb-3">
                 <Form.Label>Image</Form.Label>
-                <Form.Control type="file" onChange={e => setFile(e.target.files[0])} />
+                <Form.Control type="file" onChange={e => getBase64(e.target.files[0])} />
             </Form.Group>
             <Button variant="primary" onClick={submitForm}>Submit</Button>
 
