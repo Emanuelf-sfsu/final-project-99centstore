@@ -16,12 +16,24 @@ import rootReducer from './redux/reducers/rootReducer';
 // });
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
+console.log(process.env)
+const webSocket = new WebSocket('ws://' + window.location.host.split(':')[0] + (window.location.port && `:${process.env.REACT_APP_WEBSOCKET_HOST}`) + '/websocket');
 
-const webSocket = new WebSocket('ws://' + window.location.host.split(':')[0] + (window.location.port && `:${3001}`) + '/websocket');
+function isJson(str) {
+  try {
+      JSON.parse(str);
+  } catch (e) {
+      return false;
+  }
+  return true;
+}
 
 
 webSocket.onmessage = (message) => {
-  console.log(store)
+  console.log(message)
+  if(isJson(message.data)){
+    console.log(JSON.parse(message.data));
+  }
   store.dispatch(insertMessage(message.data));
 };
 

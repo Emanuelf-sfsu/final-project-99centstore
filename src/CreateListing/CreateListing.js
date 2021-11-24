@@ -2,17 +2,19 @@ import React, { useState } from 'react';
 import './CreateListing.css';
 import { Form, Button, InputGroup } from 'react-bootstrap';
 import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 const CreateListing = () => {
     // Only accessible by Admin
     // Create a Listing here
+    let navigate = useNavigate();
+
     const [value, setValue] = useState({});
     const [file, setFile] = useState(null);
     const submitForm = () => {
 
-        axios.post('listingService/createListing', value).then(data => {
+        axios.post('listingService/createListing', { ...value, image: file }).then(data => {
             const imageService = '/imageService/process';
             const formData = new FormData();
-            console.log(data.data)
             formData.append('imageFile', file);
             formData.append('insertId', data.data.insertId)
             const config = {
@@ -20,7 +22,8 @@ const CreateListing = () => {
                     'content-type': 'multipart/form-data'
                 }
             }
-            axios.post(imageService, formData, config).then(res=>console.log(res))
+            axios.post(imageService, formData, config).then(res => console.log(res))
+            navigate('/')
         }).catch(err => console.log(err))
     };
 
@@ -28,6 +31,7 @@ const CreateListing = () => {
         let reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = function () {
+            console.log(reader.result);
             setFile(reader.result)
         };
         reader.onerror = function (error) {
