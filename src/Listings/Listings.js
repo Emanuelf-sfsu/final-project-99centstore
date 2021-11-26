@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import ListingCard from './ListingCard';
 import './Listings.css';
 import { Row, Col } from 'react-bootstrap'
 import axios from 'axios';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { updateListing } from '../redux/actions/listingActions';
 const Listings = () => {
     // View All Listings
-    const [listingData, setListingData] = useState(null)
+    const listingData = useSelector(state => state.listingReducer.listing);
+    const dispatch = useDispatch();
     useEffect(() => {
         axios.get('/listingService/getAllListing').then(data => {
-            console.log(data);
-            setListingData(data.data);
+            dispatch(updateListing(data.data));
         })
     }, []);
     return (

@@ -1,5 +1,7 @@
 const INITIAL_STATE = {
-  messages: [],
+  chatData: {
+    messages: []
+  },
   text: '',
 };
 
@@ -8,7 +10,7 @@ const messageReducer = (state = INITIAL_STATE, action) => {
     case 'UPDATE_MESSAGES':
       return {
         ...state,
-        messages: action.messages,
+        chatData: action.messages,
       };
     case 'UPDATE_TEXT':
       return {
@@ -16,9 +18,12 @@ const messageReducer = (state = INITIAL_STATE, action) => {
         text: action.text,
       };
     case 'INSERT_MESSAGE':
+      console.log(action);
+      console.log(state.chatData)
+      const newMessages = [...state.chatData.messages, action.message];
       return {
         ...state,
-        messages: [...state.messages, action.message],
+        chatData: { ...state.chatData, messages: newMessages },
       };
     default:
       return state;

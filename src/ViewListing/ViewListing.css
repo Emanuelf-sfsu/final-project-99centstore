@@ -1,0 +1,30 @@
+.padding-four > .card-body {
+    padding: 4px !important;
+}
+.chat-box-card > .card-body {
+    display: flex;
+    flex-direction: column;
+}
+.arrow-right {
+    width: 0;
+    height: 0;
+    border-bottom: 10px solid transparent;
+    border-right: 17px solid green;
+    margin-top: 0.5rem !important;
+}
+
+.arrow-left {
+    width: 0;
+    height: 0;
+    border-bottom: 10px solid transparent;
+    border-left: 17px solid rgb(13, 110, 253);
+    margin-top: 0.5rem !important;
+}
+
+.chat-box-self {
+    display: flex;
+}
+.chat-box {
+    display: flex;
+    margin-left: auto;
+}

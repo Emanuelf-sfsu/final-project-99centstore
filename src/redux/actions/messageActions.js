@@ -8,7 +8,7 @@ export const updateMessages = messages => {
 };
 
 export const insertMessage = message => {
-  console.log('inserting message')
+  console.log(message);
   return {
     type: 'INSERT_MESSAGE',
     message,

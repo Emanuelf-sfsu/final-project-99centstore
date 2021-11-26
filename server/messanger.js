@@ -18,8 +18,10 @@ mongoClient.connect((err) => {
   app.use(bodyParser.json());
   // sorry for spelling wrong :(
   app.post('/messanger/postMessage', (req, res) => {
-    console.log(req.body);
-    db.collection(messagingCollection).insertOne({ data: req.body.message })
+    console.log(req.body.message);
+    const { productId } = req.body.message;
+    db.collection(messagingCollection).deleteOne({ productId });
+    db.collection(messagingCollection).insertOne(req.body.message)
       .then(() => console.log('db insert worked'))
       .catch((e) => console.log(e));
     client.publish('testPublish', req.body.message);
@@ -27,11 +29,15 @@ mongoClient.connect((err) => {
   });
 
   app.get('/messanger/getMessages', (req, res) => {
-    db.collection(messagingCollection).find({}).toArray()
-      .then((result) => {
-        res.send(result.map(r => r.data));
-      })
-      .catch((e) => console.log(e));
+    const { id } = (req.query);
+    if (id) {
+      db.collection(messagingCollection).findOne({ productId: id })
+        .then((result) => {
+          res.send(result);
+        })
+        .catch((e) => console.log(e));
+    } else res.sendStatus(404);
+
   });
 
   app.listen(process.env.MESSANGER_HOST || 5000);
