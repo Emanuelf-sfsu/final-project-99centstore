@@ -36,3 +36,10 @@ export const registerUser = () => (dispatch, getState) => {
 export const loginUser = () => {
 
 }
+
+export const setAdmin = () => {
+    return {
+        type: 'USER_SET_ADMIN',
+        payload: true
+    }
+}

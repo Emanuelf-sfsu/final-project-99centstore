@@ -44,7 +44,7 @@ mongoClient.connect((err) => {
         insertId,
         image100
       }
-      client.publish('testPublish', obj);
+      client.publish('testPublish', { ...obj, type: 'image' });
     }).catch(err => console.log("err"))
   });
 });

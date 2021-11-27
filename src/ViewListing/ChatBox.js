@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { Button, Card, Form } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux';
-import { handlTextChange, insertMessage,updateMessages } from '../redux/actions/messageActions';
+import { handlTextChange, insertMessage, updateMessages } from '../redux/actions/messageActions';
 import axios from 'axios';
 
 // const MOCK_RESPONSE = {
@@ -21,17 +21,21 @@ const ChatBox = ({ productId, productName }) => {
     // }
     const { text, chatData } = useSelector(state => state.messageReducer);
     const dispatch = useDispatch();
+    const isAdmin = useSelector(state => state.userReducer.isAdmin);
 
-    // const [chatData, setChatData] = useState(MOCK_RESPONSE);
-    // const [chatMessage, setChatMessage] = useState("");
 
     const onClickSend = () => {
-        
-        const newMessages = [...chatData.messages || [], { message: text, sender: 'USER' }]
-        dispatch(insertMessage({ message: text, sender: 'USER' }));
-        // setChatData({ ...chatData, messages: newMessages });
-        axios.post('/messanger/postMessage', { message: { productId, productName, messages: newMessages } })
-        dispatch(handlTextChange(''));
+        if (productId && productName) {
+            // debugger;
+            console.log(chatData);
+            const newMessages = [...chatData.messages || [], { message: text, sender: isAdmin ? 'ADMIN' : 'USER' }]
+            console.log(text);
+            console.log(newMessages)
+            dispatch(insertMessage({ message: text, sender: isAdmin ? 'ADMIN' : 'USER' }));
+            // setChatData({ ...chatData, messages: newMessages });
+            axios.post('/messanger/postMessage', { message: { productId, productName, messages: newMessages } })
+            dispatch(handlTextChange(''));
+        }
     }
     const handleKeyDown = (event) => {
         if (event.key === 'Enter') {
@@ -40,25 +44,28 @@ const ChatBox = ({ productId, productName }) => {
     };
 
     useEffect(() => {
-        axios.get('/messanger/getMessages', {
-            params: {
-                id: productId
-            }
-        }).then(data => {
-            dispatch(updateMessages(data.data))
-        }).catch(err => console.log(err));
-    }, [])
+        if (productId) {
+            axios.get('/messanger/getMessages', {
+                params: {
+                    id: productId
+                }
+            }).then(data => {
+                dispatch(updateMessages(data.data))
+            }).catch(err => console.log(err));
+        }
+
+    }, [productId])
 
     useEffect(() => {
-        console.log(chatData)
-    }, [chatData])
+        console.log(isAdmin)
+    }, [isAdmin])
 
     return (
         <div>
             <Card body style={{ height: '572px' }}>
                 <Card body style={{ height: '484px', marginBottom: '12px' }} className="chat-box-card">
-                    {chatData.messages && chatData.messages.map((data, index) => <div key={index} className={data.sender === 'USER' ? "chat-box" : "chat-box-self"}>
-                        {data.sender === 'ADMIN' && <div className="arrow-right"></div>}<Card body bg={data.sender === 'USER' ? 'primary' : 'success'} className="mt-2 padding-four">{data.message}</Card>{data.sender === 'USER' && <div className="arrow-left"></div>}
+                    {chatData.messages && chatData.messages.map((data, index) => <div key={index} className={((data.sender === 'USER' && !isAdmin) || (data.sender === 'ADMIN' && isAdmin)) ? "chat-box" : "chat-box-self"}>
+                        {((data.sender === 'USER' && isAdmin) || (data.sender === 'ADMIN' && !isAdmin)) && <div className="arrow-right"></div>}<Card body bg={((data.sender === 'USER' && !isAdmin)) ? 'primary' : 'success'} className="mt-2 padding-four">{data.message}</Card>{((data.sender === 'USER' && !isAdmin) || (data.sender === 'ADMIN' && isAdmin)) && <div className="arrow-left"></div>}
                     </div>)}
                 </Card>
                 <div style={{ display: 'flex' }}>

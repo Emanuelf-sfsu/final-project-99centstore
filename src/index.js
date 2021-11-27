@@ -6,7 +6,7 @@ import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import { createStore, applyMiddleware } from 'redux';
-import { insertMessage } from './redux/actions/messageActions';
+import { updateMessages } from './redux/actions/messageActions';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter } from "react-router-dom";
 import rootReducer from './redux/reducers/rootReducer';
@@ -21,9 +21,9 @@ const webSocket = new WebSocket('ws://' + window.location.host.split(':')[0] + (
 
 function isJson(str) {
   try {
-      JSON.parse(str);
+    JSON.parse(str);
   } catch (e) {
-      return false;
+    return false;
   }
   return true;
 }
@@ -31,10 +31,15 @@ function isJson(str) {
 
 webSocket.onmessage = (message) => {
   console.log(message)
-  if(isJson(message.data)){
-    console.log(JSON.parse(message.data));
+  if (isJson(message.data)) {
+    const obj = JSON.parse(message.data);
+    const { type } = obj;
+    delete obj[type];
+    if (type === 'message') {
+      store.dispatch(updateMessages(obj));
+    }
   }
-  store.dispatch(insertMessage(message.data));
+  // store.dispatch(insertMessage(message.data));
 };
 
 ReactDOM.render(

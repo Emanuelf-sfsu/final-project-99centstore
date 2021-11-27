@@ -20,12 +20,14 @@ mongoClient.connect((err) => {
   app.post('/messanger/postMessage', (req, res) => {
     console.log(req.body.message);
     const { productId } = req.body.message;
-    db.collection(messagingCollection).deleteOne({ productId });
-    db.collection(messagingCollection).insertOne(req.body.message)
-      .then(() => console.log('db insert worked'))
-      .catch((e) => console.log(e));
-    client.publish('testPublish', req.body.message);
-    res.send('ok');
+    db.collection(messagingCollection).deleteOne({ productId }).then(() => {
+      db.collection(messagingCollection).insertOne(req.body.message)
+        .then(() => console.log('db insert worked'))
+        .catch((e) => console.log(e));
+      client.publish('testPublish', JSON.stringify({ ...req.body.message, type: 'message' }));
+      res.send('ok');
+    });
+
   });
 
   app.get('/messanger/getMessages', (req, res) => {

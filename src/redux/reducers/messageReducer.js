@@ -20,11 +20,20 @@ const messageReducer = (state = INITIAL_STATE, action) => {
     case 'INSERT_MESSAGE':
       console.log(action);
       console.log(state.chatData)
-      const newMessages = [...state.chatData.messages, action.message];
-      return {
-        ...state,
-        chatData: { ...state.chatData, messages: newMessages },
-      };
+      if (state.chatData && state.chatData.messages) {
+        const newMessages = [...state.chatData.messages, action.message];
+        return {
+          ...state,
+          chatData: { ...state.chatData, messages: newMessages },
+        };
+      } else {
+        const newMessages = [action.message];
+        return {
+          ...state,
+          chatData: { messages: newMessages },
+        };
+      }
+
     default:
       return state;
   }

@@ -28,7 +28,7 @@ mongoClient.connect((err) => {
     db.collection(userCollection).insertOne(obj)
       .then(() => console.log('db insert worked'))
       .catch((e) => console.log(e));
-    client.publish('testPublish', obj);
+    client.publish('testPublish', JSON.stringify({ ...obj, type: 'auth' }));
     res.status(201).send('Account Created');
   });
 

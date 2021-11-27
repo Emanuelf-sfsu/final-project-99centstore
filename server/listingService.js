@@ -21,8 +21,8 @@ mongoClient.connect((err) => {
       .then((data) => {
         insertId = data.insertedId;
         const obj = { title, desc, price, insertId }
-        client.publish('testPublish', JSON.stringify(obj));
-        client.publish('testPublish', obj);
+        client.publish('testPublish', JSON.stringify({ ...obj, type: 'newListing' }));
+        // client.publish('testPublish', obj);
       }).catch(err => console.log("err"))
 
   });
