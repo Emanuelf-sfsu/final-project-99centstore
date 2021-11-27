@@ -5,7 +5,6 @@ const INITIAL_STATE = {
 };
 
 const userReducer = (state=INITIAL_STATE, action) => {
-    console.log('inside reducer', action.payload);
     switch(action.type){
         case 'USER_SET_EMAIL':
             return{
@@ -16,6 +15,11 @@ const userReducer = (state=INITIAL_STATE, action) => {
             return{
                 ...state,
                 password: action.payload
+            }
+        case 'LOGIN_USER':
+            return{
+                ...state,
+                isLoggeIn: action.payload
             }
         default: return state;
     }

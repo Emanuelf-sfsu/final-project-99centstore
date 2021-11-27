@@ -7,10 +7,10 @@ const client = redis.createClient({ host: process.env.REDIS_HOST || 'localhost' 
 
 // monogo init
 const url = process.env.MONGO_HOST || 'mongodb://localhost:27017';
-console.log(url)
+console.log('this is the url', url)
 const mongoClient = new MongoClient(url);
 const userCollection = process.env.USER_COLLECTION;
-console.log(userCollection);
+console.log('this is the userCollection', userCollection);
 mongoClient.connect((err) => {
   if (err) console.log(err);
   const db = mongoClient.db(process.env.MONGOCLIENT_DB);
@@ -20,6 +20,7 @@ mongoClient.connect((err) => {
   // sorry for spelling wrong :(
   app.post('/authService/createAccount', (req, res) => {
     // Create Account Service
+    console.log('hello');
     console.log(req.body);
     const obj = {
       email: req.body.email,

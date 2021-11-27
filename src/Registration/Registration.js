@@ -6,7 +6,6 @@ import { setEmail, setPassword, registerUser } from '../redux/actions/userAction
 
 
 const Registration = () => {
-    useSelector(state => console.log(state));
     const dispatch = useDispatch();
     const email = useSelector(state => state.userReducer.email);
     const password = useSelector(state => state.userReducer.password);
@@ -19,11 +18,7 @@ const Registration = () => {
             <Form onSubmit={() => dispatch(registerUser())}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label>Email address</Form.Label>
-                    <Form.Control type="email" placeholder={"Enter Email"} value={email} onChange={e => dispatch(setEmail(e.target.value))}/>
-                    {/* <Form.Text className="text-muted">
-                    We'll never share your email with anyone else.
-                    </Form.Text> */}
-                </Form.Group>
+                    <Form.Control type="email" placeholder={"Enter Email"} value={email} onChange={e => dispatch(setEmail(e.target.value))}/>                </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicPassword">
                     <Form.Label>Password</Form.Label>

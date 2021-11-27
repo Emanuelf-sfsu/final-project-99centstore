@@ -1,38 +1,46 @@
 import axios from "axios"
 
-export const setEmail = email => {
-    console.log('inside action', email)
-    return {
+export const setEmail = email => ({
         type: 'USER_SET_EMAIL',
         payload: email
-    }
-}
+})
 
-export const setPassword = password => {
-    console.log('inside action', password);
-    return {
+export const setPassword = password => ({
         type: 'USER_SET_PASSWORD',
         payload: password
-    }
-}
+});
 
 export const registerUser = () => (dispatch, getState) => {
     console.log('registerUser')
+    setTimeout(() => console.log('time out'), 3000)
     const { userReducer } = getState();
     console.log(userReducer);
+    setTimeout(() => console.log('time out'), 3000)
     console.log('test', userReducer.email)
     const body = {
         email: userReducer.email,
         password: userReducer.password
-    };
-    console.log('before axios post')
-    axios.post('/createAccount', body)
+    };    
+    axios.post('authService/createAccount', body)
         .then(() => {
-            console.log('success')
+            dispatch(loginUser())
+            
         })
         .catch(console.log)
 }
 
-export const loginUser = () => {
-
+export const loginUser = () => (getState) =>                                                     {
+    const { userReducer } = getState();
+    const body = {
+        email: userReducer.email,
+        password: userReducer.password
+    }
+    
+    axios.get('authService/login', body)
+        .then(() => {
+            return{
+                type: 'LOGIN_USER',
+                payload: true
+            }
+        })
 }
