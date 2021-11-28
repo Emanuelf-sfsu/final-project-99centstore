@@ -10,7 +10,8 @@ import { updateMessages } from './redux/actions/messageActions';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter } from "react-router-dom";
 import rootReducer from './redux/reducers/rootReducer';
-
+import axios from 'axios';
+import { updateListing } from './redux/actions/listingActions';
 // const rootReducer = combineReducers({
 //   messageReducer,
 // });
@@ -37,6 +38,10 @@ webSocket.onmessage = (message) => {
     delete obj[type];
     if (type === 'message') {
       store.dispatch(updateMessages(obj));
+    } else if (type === 'newListing' || type === 'image') {
+      axios.get('/listingService/getAllListing').then(data => {
+        store.dispatch(updateListing(data.data));
+    })
     }
   }
   // store.dispatch(insertMessage(message.data));
