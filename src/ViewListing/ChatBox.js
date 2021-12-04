@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { Button, Card, Form } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux';
-import { handlTextChange, insertMessage, updateMessages } from '../redux/actions/messageActions';
+import { handlTextChange, insertMessage, submitMessage, updateMessages } from '../redux/actions/messageActions';
 import axios from 'axios';
 
 // const MOCK_RESPONSE = {
@@ -25,17 +25,18 @@ const ChatBox = ({ productId, productName }) => {
 
 
     const onClickSend = () => {
-        if (productId && productName) {
-            // debugger;
-            console.log(chatData);
-            const newMessages = [...chatData.messages || [], { message: text, sender: isAdmin ? 'ADMIN' : 'USER' }]
-            console.log(text);
-            console.log(newMessages)
-            dispatch(insertMessage({ message: text, sender: isAdmin ? 'ADMIN' : 'USER' }));
-            // setChatData({ ...chatData, messages: newMessages });
-            axios.post('/messanger/postMessage', { message: { productId, productName, messages: newMessages } })
-            dispatch(handlTextChange(''));
-        }
+        // if (productId && productName) {
+        //     // debugger;
+        //     console.log(chatData);
+        //     const newMessages = [...chatData.messages || [], { message: text, sender: isAdmin ? 'ADMIN' : 'USER' }]
+        //     console.log(text);
+        //     console.log(newMessages)
+        //     dispatch(insertMessage({ message: text, sender: isAdmin ? 'ADMIN' : 'USER' }));
+        //     // setChatData({ ...chatData, messages: newMessages });
+        //     axios.post('/messanger/postMessage', { message: { productId, productName, messages: newMessages } })
+        //     dispatch(handlTextChange(''));
+        // }
+        dispatch(submitMessage());
     }
     const handleKeyDown = (event) => {
         if (event.key === 'Enter') {
