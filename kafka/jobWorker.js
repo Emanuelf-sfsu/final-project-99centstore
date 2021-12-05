@@ -21,7 +21,7 @@ const resizeBase64 = async (base64Image, maxHeight = 640, maxWidth = 640) => {
 
     return `data:${mimType};base64,${resizedImage.toString("base64")}`
   } catch (error) {
-    throwError({ error })
+    throw new Error({ error });
   }
 };
 

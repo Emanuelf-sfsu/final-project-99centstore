@@ -21,14 +21,14 @@ const CreateListing = () => {
         if (editMode) {
             axios.post('/listingService/editListing', { ...value, id: currentListing._id }).then(data => {
                 // const imageService = '/imageService/process';
-                const formData = new FormData();
+                // const formData = new FormData();
                 // formData.append('imageFile', file);
                 // formData.append('insertId', data.data.insertId)
-                const config = {
-                    headers: {
-                        'content-type': 'multipart/form-data'
-                    }
-                }
+                // const config = {
+                //     headers: {
+                //         'content-type': 'multipart/form-data'
+                //     }
+                // }
                 // axios.post(imageService, formData, config).then(res => console.log(res))
                 navigate('/');
                 toastSuccess('Listing Edited Successfully');
@@ -37,7 +37,7 @@ const CreateListing = () => {
                 toastError('Error in editing listing');
             });
         } else {
-            axios.post('/listingService/createListing', { ...value, image: file }).then(data => {
+            axios.post('/listingService/createListing', { ...value }).then(data => {
                 const imageService = '/imageService/process';
                 const formData = new FormData();
                 formData.append('imageFile', file);
