@@ -21,9 +21,9 @@ const Listings = () => {
             <Row xs={1} md={4} lg={4} className="g-4">
                 {listingData && listingData.map((data, index) => <Col key={index}><ListingCard {...data} /></Col>)}
             </Row>
-            {isAdmin && <>
+            {/* {isAdmin && <>
                 <ChatBox />
-            </>}
+            </>} */}
         </div>
     )
 }
