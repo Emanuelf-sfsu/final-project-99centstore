@@ -11,36 +11,33 @@ export const setPassword = password => ({
 });
 
 export const registerUser = () => (dispatch, getState) => {
-    console.log('registerUser')
-    setTimeout(() => console.log('time out'), 3000)
     const { userReducer } = getState();
-    console.log(userReducer);
-    setTimeout(() => console.log('time out'), 3000)
-    console.log('test', userReducer.email)
     const body = {
         email: userReducer.email,
         password: userReducer.password
     };    
-    axios.post('authService/createAccount', body)
+    axios.post('/authService/createAccount', body)
         .then(() => {
-            dispatch(loginUser())
-            
+            console.log('we in here!')
+            dispatch(loginUser());
         })
-        .catch(console.log)
+        .catch((e) => console.log(e));
 }
 
-export const loginUser = () => (getState) =>                                                     {
+export const loginUser = () => (getState) => {
+    console.log('in here in here in here!');
     const { userReducer } = getState();
+    console.log('inside of the loginUser')
     const body = {
         email: userReducer.email,
         password: userReducer.password
     }
     
-    axios.get('authService/login', body)
+    axios.get('/authService/login', body)
         .then(() => {
             return{
                 type: 'LOGIN_USER',
                 payload: true
             }
-        })
+        }).catch((e) => console.log(e));
 }

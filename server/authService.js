@@ -9,7 +9,7 @@ const client = redis.createClient({ host: process.env.REDIS_HOST || 'localhost' 
 const url = process.env.MONGO_HOST || 'mongodb://localhost:27017';
 console.log('this is the url', url)
 const mongoClient = new MongoClient(url);
-const userCollection = process.env.USER_COLLECTION;
+const userCollection = process.env.USER_COLLECTION || 'userCollection';
 console.log('this is the userCollection', userCollection);
 mongoClient.connect((err) => {
   if (err) console.log(err);
@@ -34,6 +34,7 @@ mongoClient.connect((err) => {
   });
 
   app.get('/authService/login', (req, res) => {
+    console.log('Inside of login');
     const obj = {
       email: req.body.email,
       password: req.body.password
