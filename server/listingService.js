@@ -17,11 +17,13 @@ mongoClient.connect((err) => {
   app.post('/listingService/createListing', (req, res) => {
     let insertId;
     const { title, desc, price } = req.body;
+    console.log("title ",title);
     db.collection(listingCollection).insertOne({ title, desc, price })
       .then((data) => {
         insertId = data.insertedId;
         const obj = { title, desc, price, insertId }
         client.publish('testPublish', JSON.stringify({ ...obj, type: 'newListing' }));
+        res.send(obj);
         // client.publish('testPublish', obj);
       }).catch(err => console.log("err"))
 
