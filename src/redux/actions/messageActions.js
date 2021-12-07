@@ -8,7 +8,7 @@ export const updateMessages = messages => {
 };
 
 export const insertMessage = message => {
-  console.log('inserting message')
+  console.log(message);
   return {
     type: 'INSERT_MESSAGE',
     message,
@@ -23,7 +23,8 @@ export const handlTextChange = text => {
 };
 
 export const submitMessage = () => (dispatch, getState) => {
-  axios.post('/messanger/postMessage', { message: getState().messageReducer.text })
+  console.log(getState().messageReducer)
+  axios.post('/messanger/postMessage', { message: getState().messageReducer.chatData })
     .then(() => { })
     .catch(e => console.log(e));
   dispatch(handlTextChange(''));

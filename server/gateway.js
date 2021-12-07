@@ -2,13 +2,14 @@ const express = require('express');
 require('dotenv').config();
 const server = require('http');
 const httpProxy = require('http-proxy');
-
+var cors = require('cors');
 const app = express();
+app.use(cors())
 const appServer = server.createServer(app);
 const apiProxy = httpProxy.createProxyServer(app);
 
 const wsProxy = httpProxy.createProxyServer({
-  target: process.env.WEBSOCKET_HOST || 'http://localhost:6000',
+  target: process.env.WEBSOCKET_HOST || 'http://localhost:5500',
   ws: true,
 });
 
@@ -46,7 +47,15 @@ app.all('/listingService*', (req, res) => {
 });
 
 
-const websocketHost = process.env.WEBSOCKET_HOST_URL || 'http://localhost:6000/websocket';
+const imageService = 'http://localhost:5003';
+console.log(`Image Service end proxies to: ${imageService}`);
+app.all('/imageService*', (req, res) => {
+  // for frontend
+  console.log('image service')
+  apiProxy.web(req, res, { target: imageService });
+});
+
+const websocketHost = process.env.WEBSOCKET_HOST_URL || 'http://localhost:5500/websocket';
 console.log(`WebSocket end proxies to: ${websocketHost}`);
 app.all('/websocket*', (req, res) => {
   console.log('incoming ws');
