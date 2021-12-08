@@ -12,6 +12,8 @@ import { BrowserRouter } from "react-router-dom";
 import rootReducer from './redux/reducers/rootReducer';
 import axios from 'axios';
 import { updateListing } from './redux/actions/listingActions';
+import 'react-toastify/dist/ReactToastify.css';
+
 // const rootReducer = combineReducers({
 //   messageReducer,
 // });

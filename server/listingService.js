@@ -17,12 +17,50 @@ mongoClient.connect((err) => {
   app.post('/listingService/createListing', (req, res) => {
     let insertId;
     const { title, desc, price } = req.body;
+    console.log("title ", title);
     db.collection(listingCollection).insertOne({ title, desc, price })
       .then((data) => {
         insertId = data.insertedId;
         const obj = { title, desc, price, insertId }
         client.publish('testPublish', JSON.stringify({ ...obj, type: 'newListing' }));
+        res.send(obj);
         // client.publish('testPublish', obj);
+      }).catch(err => console.log("err"))
+
+  });
+
+  app.post('/listingService/editListing', (req, res) => {
+    const { title, desc, price, id } = req.body;
+    console.log(title);
+    const insertId = new ObjectId(id);
+
+    console.log("title ", title);
+    db.collection(listingCollection).updateOne({ '_id': insertId }, {
+      $set: {
+        title, desc, price
+      }
+    })
+      .then((data) => {
+        const obj = { title, desc, price, insertId }
+        client.publish('testPublish', JSON.stringify({ ...obj, type: 'newListing' }));
+        res.send(obj);
+        // client.publish('testPublish', obj);
+      }).catch(err => console.log("err"))
+
+  });
+
+  app.get('/listingService/deleteListing', (req, res) => {
+    console.log(req.query)
+    const { id } = req.query;
+    console.log("title ", id);
+    const insertId = new ObjectId(id);
+    db.collection(listingCollection).deleteOne({ '_id': insertId })
+      .then((data) => {
+        // const obj = {  }
+        client.publish('testPublish', JSON.stringify({ type: 'newListing' }));
+        // res.send(obj);
+        // client.publish('testPublish', obj);
+        res.send('Deleted Record');
       }).catch(err => console.log("err"))
 
   });

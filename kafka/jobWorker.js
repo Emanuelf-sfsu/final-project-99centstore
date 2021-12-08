@@ -21,7 +21,7 @@ const resizeBase64 = async (base64Image, maxHeight = 640, maxWidth = 640) => {
 
     return `data:${mimType};base64,${resizedImage.toString("base64")}`
   } catch (error) {
-    throwError({ error })
+    throw new Error({ error });
   }
 };
 
@@ -44,7 +44,7 @@ mongoClient.connect((err) => {
         insertId,
         image100
       }
-      client.publish('testPublish', { ...obj, type: 'image' });
+      client.publish('testPublish', JSON.stringify({ ...obj, type: 'image' }));
     }).catch(err => console.log("err"))
   });
 });
