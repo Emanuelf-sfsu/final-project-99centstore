@@ -1,4 +1,4 @@
-FROM node:10-alpine
+FROM node:12
 
 WORKDIR /main
 COPY ./public /main/public

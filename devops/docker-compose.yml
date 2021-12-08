@@ -16,7 +16,7 @@ services:
     networks:
       - webnet
   gateway:
-    image: bparra/gateway
+    image: emansfsu/gateway
     ports:
       - "4000:4000"
     deploy:
@@ -28,7 +28,7 @@ services:
       - MESSANGER_HOST=http://messanger:5000
       - WEBSOCKET_HOST=http://websocket:6000/websocket
   frontend:
-    image : bparra/react-demo
+    image : emansfsu/react-demo
     ports:
       - "3000:3000"
     deploy:
@@ -38,7 +38,7 @@ services:
     networks:
       - webnet
   websocket:
-    image : bparra/websocket-demo
+    image : emansfsu/websocket-demo
     depends_on:
       - redis
     ports:
@@ -52,7 +52,7 @@ services:
     environment:
       - REDIS_HOST=redis
   messanger:
-    image : bparra/messanger-demo
+    image : emansfsu/messanger-demo
     depends_on:
       - redis
       - mongodb
