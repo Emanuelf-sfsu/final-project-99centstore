@@ -7,7 +7,7 @@ const client = redis.createClient({ host: process.env.REDIS_HOST || 'localhost' 
 // monogo init
 const url = process.env.MONGO_HOST || 'mongodb://localhost:27017';
 const mongoClient = new MongoClient(url);
-const listingCollection = process.env.LISTING_COLLECTION;
+const listingCollection = 'listingCollection';
 
 mongoClient.connect((err) => {
   if (err) console.log(err);

@@ -10,6 +10,15 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'build', 'index.html'));
 });
 
+
+app.get('/api/viewListings', (req, res) => {
+  try {
+    return res.json(app.locals.storage);
+  } catch (error) {
+    return res.status('500').json({ message: error });
+  }
+});
+
 const port = process.env.PORT || 3000;
 
 app.listen(port);
