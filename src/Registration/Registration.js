@@ -9,13 +9,18 @@ const Registration = () => {
     const dispatch = useDispatch();
     const email = useSelector(state => state.userReducer.email);
     const password = useSelector(state => state.userReducer.password);
+    const onSubmit = (e) => {
+        e.preventDefault();
+        dispatch(registerUser())
+    }
+    useSelector(state=>console.log(state));
     return (
         <>
 
             <div className="registration-logo">
                 <h1>Register</h1>
             </div>
-            <Form onSubmit={() => dispatch(registerUser())}>
+            <Form onSubmit={(e) => onSubmit(e)}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label>Email address</Form.Label>
                     <Form.Control type="email" placeholder={"Enter Email"} value={email} onChange={e => dispatch(setEmail(e.target.value))}/>                </Form.Group>

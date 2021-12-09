@@ -10,6 +10,11 @@ export const setPassword = password => ({
         payload: password
 });
 
+export const setAdmin = () => ({
+    type: 'USER_SET_ADMIN',
+    payload: true
+})
+
 export const registerUser = () => (dispatch, getState) => {
     const { userReducer } = getState();
     const body = {
@@ -19,7 +24,7 @@ export const registerUser = () => (dispatch, getState) => {
     axios.post('/authService/createAccount', body)
         .then(() => {
             console.log('we in here!')
-            dispatch(loginUser());
+            dispatch({type:'LOGIN_USER', payload: true});
         })
         .catch((e) => console.log(e));
 }
