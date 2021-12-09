@@ -121,7 +121,7 @@ services:
       - redis
       - mongodb
     ports:
-      - "5003:5003"
+      - "5004:5004"
     deploy:
       replicas: 1
       restart_policy:
