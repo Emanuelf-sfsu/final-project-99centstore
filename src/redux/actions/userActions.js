@@ -36,7 +36,18 @@ export const loginUser = () => (dispatch, getState) => {
         email: userReducer.email,
         password: userReducer.password
     }})
-        .then(() => {
-            dispatch({type: 'LOGIN_USER', payload: true})
+        .then((response) => {
+            if(!response.data.login){
+                
+                return
+            }else{
+                console.log('we made it inside .then()')
+                dispatch({type: 'LOGIN_USER', payload: true})
+            }
+            
         }).catch((e) => console.log(e));
 }
+
+export const logoutUser = () => ({
+    type: 'LOGOUT_USER'
+})
