@@ -35,14 +35,15 @@ mongoClient.connect((err) => {
 
   app.get('/authService/login', (req, res) => {
     console.log('Inside of login');
+    console.log('authService/login', req.body.email);
     const obj = {
-      email: req.body.email,
-      password: req.body.password
+      email: req.query.email,
+      password: req.query.password
     }
-    console.log(obj);
+   console.log(obj);
     db.collection(userCollection).find({ email: obj.email }).toArray()
       .then((result) => {
-        console.log(result)
+        console.log('result ', result)
         const filterArray = result.filter(r => r.password && (r.password === obj.password));
         res.send({ login: result.length > 0 && filterArray.length >= 1 });
       })

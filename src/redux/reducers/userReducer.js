@@ -1,7 +1,7 @@
 const INITIAL_STATE = {
     email: '',
     password: '',
-    isLoggeIn: false,
+    isLoggedIn: false,
     isAdmin: false
 };
 
@@ -18,7 +18,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
                 password: action.payload
             }
         case 'LOGIN_USER':
-            console.log('inside LOGIN_USER')
+            console.log('inside LOGIN_USER', state.isLoggedIn)
             return{
                 ...state,
                 isLoggeIn: action.payload

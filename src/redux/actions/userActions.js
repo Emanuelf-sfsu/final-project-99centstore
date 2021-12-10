@@ -29,20 +29,14 @@ export const registerUser = () => (dispatch, getState) => {
         .catch((e) => console.log(e));
 }
 
-export const loginUser = () => (getState) => {
-    console.log('in here in here in here!');
+export const loginUser = () => (dispatch, getState) => {
     const { userReducer } = getState();
-    console.log('inside of the loginUser')
-    const body = {
+
+    axios.get('/authService/login', {params:{
         email: userReducer.email,
         password: userReducer.password
-    }
-    
-    axios.get('/authService/login', body)
+    }})
         .then(() => {
-            return{
-                type: 'LOGIN_USER',
-                payload: true
-            }
+            dispatch({type: 'LOGIN_USER', payload: true})
         }).catch((e) => console.log(e));
 }

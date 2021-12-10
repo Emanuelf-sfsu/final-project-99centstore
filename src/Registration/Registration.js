@@ -1,17 +1,19 @@
 import React from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { setEmail, setPassword, registerUser } from '../redux/actions/userActions';
 
 
 const Registration = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const email = useSelector(state => state.userReducer.email);
     const password = useSelector(state => state.userReducer.password);
     const onSubmit = (e) => {
         e.preventDefault();
         dispatch(registerUser())
+        navigate('/')
     }
     useSelector(state=>console.log(state));
     return (
