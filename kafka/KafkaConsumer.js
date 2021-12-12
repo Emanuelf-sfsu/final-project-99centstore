@@ -2,7 +2,7 @@ const ConsumerGroup = require('kafka-node').ConsumerGroup;
 const EventEmitter = require('events');
 
 const consumerOptions = {
-  kafkaHost: '10.0.0.232:9092',
+  kafkaHost: 'localhost:9092',
   groupId: (Date.now()).toString(),
   sessionTimeout: 25000,
   protocol: ['roundrobin'],

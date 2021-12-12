@@ -1,4 +1,4 @@
-FROM node:10-alpine
+FROM node:16.9.1-alpine
 
 WORKDIR /main
 COPY ./server/gateway.js /main
