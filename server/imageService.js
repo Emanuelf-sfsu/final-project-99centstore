@@ -1,7 +1,41 @@
 const express = require('express');
 const fileupload = require('express-fileupload')
 require('dotenv').config();
-const KafkaProducer = require('../kafka/KafkaProducer.js');
+const kafka = require('kafka-node');
+const HighLevelProducer = kafka.HighLevelProducer;
+const Client = kafka.KafkaClient;
+
+// Kafka Producer Class
+class KafkaProducer {
+    constructor(topic) {
+      this.topic = topic;
+      this.producer = null;
+    }
+  
+    connect(callback) {
+      const client = new Client();
+      this.producer = new HighLevelProducer(client);
+      callback();
+    }
+  
+    send(message) {
+      if (!this.producer) return;
+      this.producer.send([
+        {
+          topic: this.topic,
+          messages: [JSON.stringify(message)],
+        }
+      ],
+        (err) => {
+          if (err) {
+            console.log('Error sending from kafka producer');
+            console.log(err);
+          }
+        });
+    }
+  }
+  // ----------
+
 
 const producer = new KafkaProducer('jobWork');
 producer.connect(() => console.log('connected to Kafka'));
@@ -35,4 +69,5 @@ mongoClient.connect((err) => {
     app.listen(process.env.IMAGE_SERVICE || 5003, () => console.log(`Image service on 5003`));
     // end app logic
 });
+
 
