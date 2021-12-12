@@ -5,23 +5,46 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
-import { createStore, combineReducers, applyMiddleware } from 'redux';
-import messageReducer from './redux/reducers/messageReducer';
-import { insertMessage } from './redux/actions/messageActions';
+import { createStore, applyMiddleware } from 'redux';
+import { updateMessages } from './redux/actions/messageActions';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter } from "react-router-dom";
-
-const rootReducer = combineReducers({
-  messageReducer,
-});
+import rootReducer from './redux/reducers/rootReducer';
+import axios from 'axios';
+import { updateListing } from './redux/actions/listingActions';
+// const rootReducer = combineReducers({
+//   messageReducer,
+// });
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
+console.log(process.env)
+const webSocket = new WebSocket('ws://' + window.location.host.split(':')[0] + (window.location.port && `:${process.env.REACT_APP_WEBSOCKET_HOST}`) + '/websocket');
 
-const webSocket = new WebSocket('ws://' + window.location.host.split(':')[0] + (window.location.port && `:${window.location.port}`) + '/websocket');
+function isJson(str) {
+  try {
+    JSON.parse(str);
+  } catch (e) {
+    return false;
+  }
+  return true;
+}
+
 
 webSocket.onmessage = (message) => {
   console.log(message)
-  store.dispatch(insertMessage(message.data));
+  if (isJson(message.data)) {
+    const obj = JSON.parse(message.data);
+    const { type } = obj;
+    delete obj[type];
+    if (type === 'message') {
+      store.dispatch(updateMessages(obj));
+    } else if (type === 'newListing' || type === 'image') {
+      axios.get('/listingService/getAllListing').then(data => {
+        store.dispatch(updateListing(data.data));
+    })
+    }
+  }
+  // store.dispatch(insertMessage(message.data));
 };
 
 ReactDOM.render(

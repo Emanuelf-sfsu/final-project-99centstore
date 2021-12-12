@@ -91,7 +91,6 @@ const CreateListing = () => {
         console.log(value);
         console.log(editMode)
     }, [value, editMode])
-
     return (
         <Form>
             <h4 className="mt-4">Item for sale</h4>
@@ -106,12 +105,14 @@ const CreateListing = () => {
             <InputGroup >
                 <InputGroup.Text>$</InputGroup.Text>
                 <Form.Control type="text" required placeholder={"Price"} value={value.price || ''} onChange={e => setValue({ ...value, price: e.target.value })} />
+
             </InputGroup>
             <Form.Group controlId="formFile" className="mb-3">
                 <Form.Label>Image</Form.Label>
                 <Form.Control type="file" onChange={e => getBase64(e.target.files[0])} />
             </Form.Group>
             <Button variant="primary" onClick={submitForm}>Submit</Button>
+
         </Form>
     )
 };
