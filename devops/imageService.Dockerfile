@@ -1,6 +1,7 @@
 FROM node:16.9.1-alpine
 WORKDIR /main
 COPY ./server/imageService.js /main
+COPY ./.env /main
 COPY ./package.json /main
 COPY ./package-lock.json /main
 
