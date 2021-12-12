@@ -1,13 +1,11 @@
 const INITIAL_STATE = {
     email: '',
     password: '',
-    isLoggedIn: false,
+    isLoggedIn: null,
     isAdmin: false
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {
-    console.log(action.type);
-    console.log(action.payload)
     switch (action.type) {
         case 'USER_SET_EMAIL':
             return {

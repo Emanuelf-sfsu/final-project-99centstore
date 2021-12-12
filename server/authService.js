@@ -40,13 +40,26 @@ mongoClient.connect((err) => {
       email: req.query.email,
       password: req.query.password
     }
-   console.log(obj);
-    db.collection(userCollection).find({ email: obj.email }).toArray()
-      .then((result) => {
-        const filterArray = result.filter(r => r.password && (r.password === obj.password));
-        res.send({ login: result.length > 0 && filterArray.length >= 1 });
-      })
-      .catch((e) => console.log(e));
+    client.get(obj.email, function (err, reply) {
+      // reply is null when the key is missing
+      if (reply) {
+        console.log('redis')
+        console.log(reply);
+        res.send(reply);
+      } else {
+        db.collection(userCollection).find({ email: obj.email }).toArray()
+          .then((result) => {
+            const filterArray = result.filter(r => r.password && (r.password === obj.password));
+            if (filterArray.length > 0) {
+              client.set(obj.email, obj.password);
+            }
+            res.send({ login: result.length > 0 && filterArray.length >= 1, isAdmin: obj.email === 'admin@gmail.com' });
+          })
+          .catch((e) => console.log(e));
+      }
+    });
+    console.log(obj);
+
   });
 
   app.listen(process.env.AUTH_SERVICE || 5001);
