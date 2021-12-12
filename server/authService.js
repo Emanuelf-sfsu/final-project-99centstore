@@ -7,10 +7,10 @@ const client = redis.createClient({ host: process.env.REDIS_HOST || 'localhost' 
 
 // monogo init
 const url = process.env.MONGO_HOST || 'mongodb://localhost:27017';
-console.log(url)
+console.log('this is the url', url)
 const mongoClient = new MongoClient(url);
-const userCollection = process.env.USER_COLLECTION;
-console.log(userCollection);
+const userCollection = process.env.USER_COLLECTION || 'userCollection';
+console.log('this is the userCollection', userCollection);
 mongoClient.connect((err) => {
   if (err) console.log(err);
   const db = mongoClient.db(process.env.MONGOCLIENT_DB);
@@ -20,6 +20,7 @@ mongoClient.connect((err) => {
   // sorry for spelling wrong :(
   app.post('/authService/createAccount', (req, res) => {
     // Create Account Service
+    console.log('hello');
     console.log(req.body);
     const obj = {
       email: req.body.email,
@@ -33,14 +34,15 @@ mongoClient.connect((err) => {
   });
 
   app.get('/authService/login', (req, res) => {
+    console.log('Inside of login');
+    console.log('authService/login', req.query);
     const obj = {
-      email: req.body.email,
-      password: req.body.password
+      email: req.query.email,
+      password: req.query.password
     }
-    console.log(obj);
+   console.log(obj);
     db.collection(userCollection).find({ email: obj.email }).toArray()
       .then((result) => {
-        console.log(result)
         const filterArray = result.filter(r => r.password && (r.password === obj.password));
         res.send({ login: result.length > 0 && filterArray.length >= 1 });
       })

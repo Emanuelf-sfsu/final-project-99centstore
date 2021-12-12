@@ -91,7 +91,6 @@ const CreateListing = () => {
         console.log(value);
         console.log(editMode)
     }, [value, editMode])
-
     return (
         <Form>
             <h4 className="mt-4">Item for sale</h4>
