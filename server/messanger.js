@@ -13,6 +13,8 @@ mongoClient.connect((err) => {
   if (err) console.log(err);
   const db = mongoClient.db(process.env.MONGOCLIENT_DB);
   const messagingCollection = process.env.MESSAGES_COLLECTION;
+  db.createCollection(messagingCollection).then(data=>{console.log('success');console.log(data)}).catch(err=>console.log(err));
+
   // move app logic in here
   const app = express();
   app.use(bodyParser.json());
