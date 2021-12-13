@@ -1,14 +1,17 @@
 import React from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { loginUser, setEmail, setPassword } from '../redux/actions/userActions'
 const LoginPage = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const email = useSelector(state => state.userReducer.email);
     const password = useSelector(state => state.userReducer.password);
     const handleSubmit = e => {
         e.preventDefault();
         dispatch(loginUser());
+        navigate('/');
     }
     // Insert code for Login / Create Account
     return (
