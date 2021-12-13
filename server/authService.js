@@ -14,7 +14,7 @@ console.log('this is the userCollection', userCollection);
 mongoClient.connect((err) => {
   if (err) console.log(err);
   const db = mongoClient.db(process.env.MONGOCLIENT_DB);
-  db.createCollection(userCollection).then(data=>{console.log('success');console.log(data)}).catch(err=>console.log(err));
+  db.createCollection(userCollection).then(data => { console.log('success'); console.log(data) }).catch(err => console.log(err));
   // move app logic in here
   const app = express();
   app.use(bodyParser.json());
@@ -31,7 +31,7 @@ mongoClient.connect((err) => {
       .then(() => console.log('db insert worked'))
       .catch((e) => console.log(e));
     client.publish('testPublish', JSON.stringify({ ...obj, type: 'auth' }));
-    res.status(201).send('Account Created');
+    res.status(201).send({ message: 'Account Created', isAdmin: obj.email === 'admin@gmail.com' });
   });
 
   app.get('/authService/login', (req, res) => {
@@ -46,7 +46,7 @@ mongoClient.connect((err) => {
       if (reply) {
         console.log('redis')
         console.log(reply);
-        res.send(reply);
+        res.send({ login: reply === obj.password, isAdmin: obj.email === 'admin@gmail.com' });
       } else {
         db.collection(userCollection).find({ email: obj.email }).toArray()
           .then((result) => {

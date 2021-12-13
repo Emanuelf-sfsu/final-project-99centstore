@@ -43,6 +43,9 @@ export const loginUser = () => (dispatch, getState) => {
             }else{
                 console.log('we made it inside .then()')
                 dispatch({type: 'LOGIN_USER', payload: true})
+                if(response.data.isAdmin){
+                    dispatch(setAdmin())
+                }
             }
             
         }).catch((e) => console.log(e));

@@ -14,8 +14,7 @@ const Registration = () => {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        dispatch(registerUser())
-        navigate('/')
+        dispatch(registerUser());
     }
 
     const isLoggedIn = useSelector(state => state.userReducer.isLoggedIn);
@@ -30,7 +29,7 @@ const Registration = () => {
     }, [isLoggedIn]);
 
     useEffect(() => {
-        const isEmailValid = email.match(
+        const isEmailValid = email && email.length && email.match(
             /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         );
         setDisabled(isEmailValid && password.length > 0);
