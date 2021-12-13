@@ -10,4 +10,4 @@ RUN npm install
 
 EXPOSE 5003
 
-CMD ["node", "imageService.js"]
+CMD ["node", "jobWorker.js"]

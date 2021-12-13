@@ -43,8 +43,8 @@ services:
       - FRONT_END_HOST_URL=http://frontend:3000
       - MESSANGER_HOST_URL=http://messanger:5000
       - AUTH_SERVICE_URL=http://authservice:5001
-      - LISTING_SERVICE_URL=http://authservice:5002
-      - IMAGE_SERVICE_URL=http://authservice:5003
+      - LISTING_SERVICE_URL=http://listingservice:5002
+      - IMAGE_SERVICE_URL=http://imageservice:5003
       - WEBSOCKET_HOST=http://websocket:5500/websocket
   frontend:
     image: vishals9711/react-demo
@@ -72,7 +72,7 @@ services:
       - webnet
     environment:
       - REDIS_HOST=redis
-      - WEBSOCKET_HOST=http://websocket:5500/websocket
+      - WEBSOCKET_HOST=5500
   messanger:
     image: vishals9711/messanger-demo
     depends_on:
