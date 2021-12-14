@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginUser, setEmail, setPassword } from '../redux/actions/userActions';
+import { loginUser, setEmail, setPassword, setAdmin } from '../redux/actions/userActions';
 import { useNavigate } from 'react-router-dom'
 import { toastError, toastSuccess } from '../ToastService';
 
@@ -15,6 +15,7 @@ const LoginPage = () => {
         dispatch({ type: 'LOGIN_USER', payload: null })
         e.preventDefault();
         dispatch(loginUser());
+        dispatch(setAdmin());
         navigate('/');
     }
     const isLoggedIn = useSelector(state => state.userReducer.isLoggedIn);
