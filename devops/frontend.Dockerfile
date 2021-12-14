@@ -13,4 +13,4 @@ RUN npm run build
 
 EXPOSE 3000
 
-CMD ["node", "server/frontend.js"]
+CMD ["npm", "start"]

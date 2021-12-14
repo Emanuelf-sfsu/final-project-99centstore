@@ -11,6 +11,7 @@ import NavbarComponent from './NavbarComponent';
 import { ToastContainer } from 'react-toastify';
 
 const App = ({ store }) => {
+  console.log('this will be a test!');
   return (
     <Container className="App">
       <ToastContainer />
