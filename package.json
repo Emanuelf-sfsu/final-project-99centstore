@@ -1,5 +1,5 @@
 {
-  "name": "lab8",
+  "name": "99centstore",
   "version": "0.1.0",
   "private": true,
   "proxy": "http://localhost:4000",
@@ -47,6 +47,7 @@
     "build-listingservice": "docker build -f devops/listingService.Dockerfile -t listingservice-demo . && docker tag listingservice-demo vishals9711/listingservice-demo && docker push vishals9711/listingservice-demo",
     "build-all-docker": "",
     "deploy": "docker-compose -f devops/docker-compose.yml pull && docker stack deploy -c devops/docker-compose.yml message-app",
+    "deploy-services": "docker-compose -f devops/docker-redis.yml pull && docker swarm init && docker stack deploy -c devops/docker-redis.yml message-app",
     "stop": "docker stack remove message-app"
   },
   "eslintConfig": {
