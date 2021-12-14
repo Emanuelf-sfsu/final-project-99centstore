@@ -16,8 +16,9 @@ const NavbarComponent = () => {
                 {isAdmin && <Navbar.Brand ><Link to="/createListing" style={{ textDecoration: 'none' }}>Create Listing</Link></Navbar.Brand>}
                 {!isLoggedIn && <Navbar.Brand ><Link to="/registration" style={{ textDecoration: 'none' }}>Register</Link></Navbar.Brand>}
                 {isLoggedIn ? 
-                <Navbar.Brand ><Link to="/" style={{ textDecoration: 'none' }} onClick={() => dispatch(logoutUser())}>Logout</Link></Navbar.Brand> :
-                <Navbar.Brand ><Link to="/login" style={{ textDecoration: 'none' }}>Login</Link></Navbar.Brand> }
+                <Navbar.Brand ><Link to="/" style={{ textDecoration: 'none' }} onClick={() => dispatch(logoutUser())}>Logout</Link></Navbar.Brand> : 
+                <><Navbar.Brand ><Link to="/registration" style={{ textDecoration: 'none' }}>Register</Link></Navbar.Brand>   
+                <Navbar.Brand ><Link to="/login" style={{ textDecoration: 'none' }}>Login</Link></Navbar.Brand> </>}
                 <Navbar.Brand >99 Cent Store</Navbar.Brand>
                 {/* <Button onClick={() => dispatch(setAdmin())}>Set Admin</Button> */}
             </Container>
