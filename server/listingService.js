@@ -12,7 +12,7 @@ const listingCollection = process.env.LISTING_COLLECTION;
 mongoClient.connect((err) => {
   if (err) console.log(err);
   const db = mongoClient.db(process.env.MONGOCLIENT_DB);
-  db.createCollection(listingCollection).then(data=>{console.log('success');console.log(data)}).catch(err=>console.log(err));
+  db.createCollection(listingCollection).then(_data => console.log('success')).catch(err => console.log(err));
   const app = express();
   app.use(bodyParser.json());
   app.post('/listingService/createListing', (req, res) => {
