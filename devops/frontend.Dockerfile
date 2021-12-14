@@ -4,6 +4,7 @@ WORKDIR /main
 COPY ./public /main/public
 COPY ./src /main/src
 COPY ./package.json /main
+COPY ./.env /main
 COPY ./package-lock.json /main
 COPY ./server/frontend.js /main/server/frontend.js
 

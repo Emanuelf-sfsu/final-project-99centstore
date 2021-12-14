@@ -37,12 +37,15 @@ export const loginUser = () => (dispatch, getState) => {
         password: userReducer.password
     }})
         .then((response) => {
+            console.log(response)
             if(!response.data.login){
-                
-                return
+                dispatch({type: 'LOGIN_USER', payload: false})
             }else{
                 console.log('we made it inside .then()')
                 dispatch({type: 'LOGIN_USER', payload: true})
+                if(response.data.isAdmin){
+                    dispatch(setAdmin())
+                }
             }
             
         }).catch((e) => console.log(e));
