@@ -1,12 +1,13 @@
-FROM node:10-alpine
+FROM node:16.9.1-alpine
 
 WORKDIR /main
 COPY ./server/websocket.js /main
+COPY ./.env /main
 COPY ./package.json /main
 COPY ./package-lock.json /main
 
 RUN npm install
 
-EXPOSE 6000
+EXPOSE 5500
 
 CMD ["node", "websocket.js"]

@@ -47,7 +47,7 @@ app.all('/listingService*', (req, res) => {
 });
 
 
-const imageService = 'http://localhost:5003';
+const imageService = process.env.IMAGE_SERVICE_URL || 'http://localhost:5003';
 console.log(`Image Service end proxies to: ${imageService}`);
 app.all('/imageService*', (req, res) => {
   // for frontend

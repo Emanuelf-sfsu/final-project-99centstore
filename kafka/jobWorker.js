@@ -1,4 +1,34 @@
-const KafkaConsumer = require('./KafkaConsumer');
+const ConsumerGroup = require('kafka-node').ConsumerGroup;
+const EventEmitter = require('events');
+
+// Kafka Consumer Class
+
+const consumerOptions = {
+  kafkaHost: 'localhost:9092',
+  groupId: (Date.now()).toString(),
+  sessionTimeout: 25000,
+  protocol: ['roundrobin'],
+  fromOffset: 'latest',
+};
+
+class KafkaConsumer extends EventEmitter {
+  constructor(topics) {
+    super();
+    if (Array.isArray(topics)) {
+      this.topics = topics;
+    } else {
+      this.topics = [topics];
+    }
+    this.consumerGroup = null;
+  }
+
+  connect() {
+    this.consumerGroup = new ConsumerGroup(Object.assign({ id: 'test1' }, consumerOptions), this.topics);
+    this.consumerGroup.on('message', message => this.emit('message', message));
+  }
+}
+
+
 const sharp = require('sharp');
 const consumer = new KafkaConsumer('jobWork');
 const { MongoClient, ObjectId } = require('mongodb');
@@ -21,7 +51,7 @@ const resizeBase64 = async (base64Image, maxHeight = 640, maxWidth = 640) => {
 
     return `data:${mimType};base64,${resizedImage.toString("base64")}`
   } catch (error) {
-    throwError({ error })
+    throw new Error({ error });
   }
 };
 
@@ -44,7 +74,7 @@ mongoClient.connect((err) => {
         insertId,
         image100
       }
-      client.publish('testPublish', { ...obj, type: 'image' });
+      client.publish('testPublish', JSON.stringify({ ...obj, type: 'image' }));
     }).catch(err => console.log("err"))
   });
 });

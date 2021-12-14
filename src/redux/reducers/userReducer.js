@@ -1,12 +1,11 @@
 const INITIAL_STATE = {
     email: '',
     password: '',
-    isLoggeIn: false,
+    isLoggedIn: null,
     isAdmin: false
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {
-    console.log('inside reducer', action.payload);
     switch (action.type) {
         case 'USER_SET_EMAIL':
             return {
@@ -18,11 +17,20 @@ const userReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 password: action.payload
             }
+        case 'LOGIN_USER':
+            console.log('inside LOGIN_USER', state.isLoggedIn)
+            return{
+                ...state,
+                isLoggedIn: action.payload
+            }
         case 'USER_SET_ADMIN':
-            console.log(action)
             return {
                 ...state,
                 isAdmin: action.payload
+            }
+        case 'LOGOUT_USER':
+            return{
+               state: INITIAL_STATE
             }
 
         default: return state;
