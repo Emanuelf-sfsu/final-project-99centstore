@@ -32,7 +32,7 @@ services:
     networks:
       - webnet
   gateway:
-    image: vishals9711/gateway
+    image: mgasfsu667/gateway
     ports:
       - "4000:4000"
     deploy:
@@ -47,7 +47,7 @@ services:
       - IMAGE_SERVICE_URL=http://imageservice:5003
       - WEBSOCKET_HOST=http://websocket:5500/websocket
   frontend:
-    image: vishals9711/react-demo
+    image: mgasfsu667/react-demo
     ports:
       - "3000:3000"
     deploy:
@@ -59,7 +59,7 @@ services:
     environment:
       - REACT_APP_WEBSOCKET_HOST=5500
   websocket:
-    image: vishals9711/websocket-demo
+    image: mgasfsu667/websocket-demo
     depends_on:
       - redis
     ports:
@@ -74,7 +74,7 @@ services:
       - REDIS_HOST=redis
       - WEBSOCKET_HOST=5500
   messanger:
-    image: vishals9711/messanger-demo
+    image: mgasfsu667/messanger-demo
     depends_on:
       - redis
       - mongodb
@@ -93,7 +93,7 @@ services:
       - MESSAGES_COLLECTION=messagesCollection
       - MESSANGER_HOST=5000
   imageservice:
-    image: vishals9711/imageservice-demo
+    image: mgasfsu667/imageservice-demo
     depends_on:
       - redis
       - mongodb
@@ -109,7 +109,7 @@ services:
       - REDIS_HOST=redis
       - MONGO_HOST=mongodb://mongodb:27017
   authservice:
-    image: vishals9711/authservice-demo
+    image: mgasfsu667/authservice-demo
     depends_on:
       - redis
       - mongodb
@@ -128,7 +128,7 @@ services:
       - USER_COLLECTION=userCollection
       - AUTH_SERVICE=5001
   jobworker:
-    image: vishals9711/jobworker-demo
+    image: mgasfsu667/jobworker-demo
     depends_on:
       - redis
       - mongodb
@@ -144,7 +144,7 @@ services:
       - REDIS_HOST=redis
       - MONGO_HOST=mongodb://mongodb:27017
   listingservice:
-    image: vishals9711/listingservice-demo
+    image: mgasfsu667/listingservice-demo
     depends_on:
       - redis
       - mongodb

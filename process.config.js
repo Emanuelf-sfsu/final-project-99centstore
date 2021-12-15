@@ -1,4 +1,4 @@
-module.exports = { // pm2 start process.config.js
+module.exports = { // pm2 start process.config.js pm2 kill
 
   apps: [
     {

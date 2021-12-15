@@ -1,4 +1,5 @@
 import axios from "axios"
+import { toastError } from "../../ToastService";
 
 export const setEmail = email => ({
         type: 'USER_SET_EMAIL',
@@ -26,7 +27,11 @@ export const registerUser = () => (dispatch, getState) => {
             console.log('we in here!')
             dispatch({type:'LOGIN_USER', payload: true});
         })
-        .catch((e) => console.log(e));
+        .catch((e) => {
+            toastError('User Already Registered!\nEnter A Different Email Or Login :)');
+            dispatch(setEmail(''));
+            dispatch(setPassword(''))
+        });
 }
 
 export const loginUser = () => (dispatch, getState) => {

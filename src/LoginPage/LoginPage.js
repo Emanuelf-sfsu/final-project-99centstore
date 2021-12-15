@@ -28,9 +28,9 @@ const LoginPage = () => {
             toastError('Incorrect Credentials');
         }
     }, [isLoggedIn]);
-
+    //deleted email.length from line 32 because it was causing an error
     useEffect(() => {
-        const isEmailValid = email && email.length && email.match(
+        const isEmailValid = email && email.match(
             /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         );
         setDisabled(isEmailValid && password.length > 0);

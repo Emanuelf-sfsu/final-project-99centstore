@@ -27,11 +27,20 @@ mongoClient.connect((err) => {
       email: req.body.email,
       password: req.body.password
     }
-    db.collection(userCollection).insertOne(obj)
-      .then(() => console.log('db insert worked'))
-      .catch((e) => console.log(e));
-    client.publish('testPublish', JSON.stringify({ ...obj, type: 'auth' }));
-    res.status(201).send({ message: 'Account Created', isAdmin: obj.email === 'admin@gmail.com' });
+    db.collection(userCollection).find({email: obj.email})
+      .toArray()
+      .then((result) => {
+        const filterArray = result.filter((r) => r.email && (r.email === obj.email));
+        if(filterArray.length > 0){
+          res.status(500).send('Email already exists!')
+        }else{
+          db.collection(userCollection).insertOne(obj)
+            .then(() => console.log('db insert worked'))
+            .catch((e) => console.log(e));
+            client.publish('testPublish', JSON.stringify({ ...obj, type: 'auth' }));
+            res.status(201).send({ message: 'Account Created', isAdmin: obj.email === 'admin@gmail.com' });
+        }
+      })
   });
 
   app.get('/authService/login', (req, res) => {
