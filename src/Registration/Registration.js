@@ -18,16 +18,18 @@ const Registration = () => {
     }
 
     const isLoggedIn = useSelector(state => state.userReducer.isLoggedIn);
-    useEffect(() => {
-        if (isLoggedIn) {
-            toastSuccess('Login Sucessful');
-            navigate('/')
-            //changed line 26 to === null because false was causing an error, I thin this is because isLoggedIn is declared null in initial state reducer
-        } if (isLoggedIn === null) {
-            console.log(isLoggedIn);
-            toastError('Incorrect Credentials');
-        }
-    }, [isLoggedIn]);
+    /* useEffect(() => {
+    //     if (isLoggedIn) {
+    //         toastSuccess('Login Sucessful');
+    //         navigate('/')
+    //         //changed line 26 to === null because false was causing an error, I thin this is because isLoggedIn is declared null in initial state reducer
+    //     } if (isLoggedIn === false) {
+    //         console.log(isLoggedIn);
+    //         toastError('Incorrect Credentials');
+    //     }
+    // }, [isLoggedIn]); 
+        Note: Was this an error? */
+
     //removed email.length from line 32 because it was causing an undefined problme, see if we can find a way to put it back in while fixing the bug
     useEffect(() => {
         const isEmailValid = email && email.match(
