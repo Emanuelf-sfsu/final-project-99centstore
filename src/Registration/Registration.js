@@ -22,14 +22,15 @@ const Registration = () => {
         if (isLoggedIn) {
             toastSuccess('Login Sucessful');
             navigate('/')
-        } if (isLoggedIn === false) {
+            //changed line 26 to === null because false was causing an error, I thin this is because isLoggedIn is declared null in initial state reducer
+        } if (isLoggedIn === null) {
             console.log(isLoggedIn);
             toastError('Incorrect Credentials');
         }
     }, [isLoggedIn]);
-
+    //removed email.length from line 32 because it was causing an undefined problme, see if we can find a way to put it back in while fixing the bug
     useEffect(() => {
-        const isEmailValid = email && email.length && email.match(
+        const isEmailValid = email && email.match(
             /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         );
         setDisabled(isEmailValid && password.length > 0);
