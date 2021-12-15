@@ -8,6 +8,7 @@ import { toastError, toastSuccess } from '../ToastService';
 const Registration = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const isLoggedIn = useSelector(state => state.userReducer.isLoggedIn);
     const email = useSelector(state => state.userReducer.email);
     const password = useSelector(state => state.userReducer.password);
     const [disabled, setDisabled] = useState(true);
@@ -15,20 +16,24 @@ const Registration = () => {
     const onSubmit = (e) => {
         e.preventDefault();
         dispatch(registerUser());
-    }
+    };
 
-    const isLoggedIn = useSelector(state => state.userReducer.isLoggedIn);
-    /* useEffect(() => {
-    //     if (isLoggedIn) {
-    //         toastSuccess('Login Sucessful');
-    //         navigate('/')
-    //         //changed line 26 to === null because false was causing an error, I thin this is because isLoggedIn is declared null in initial state reducer
-    //     } if (isLoggedIn === false) {
-    //         console.log(isLoggedIn);
-    //         toastError('Incorrect Credentials');
-    //     }
-    // }, [isLoggedIn]); 
-        Note: Was this an error? */
+    useEffect(() => {
+        dispatch(setEmail(""));
+        dispatch(setPassword(""))
+    }, []);
+
+
+     useEffect(() => {
+        if (isLoggedIn) {
+            toastSuccess('Login Sucessful');
+            navigate('/')
+            //changed line 26 to === null because false was causing an error, I thin this is because isLoggedIn is declared null in initial state reducer
+        } if (isLoggedIn === false) {
+            console.log(isLoggedIn);
+            toastError('Incorrect Credentials');
+        }
+    }, [isLoggedIn]);
 
     //removed email.length from line 32 because it was causing an undefined problme, see if we can find a way to put it back in while fixing the bug
     useEffect(() => {
@@ -37,7 +42,7 @@ const Registration = () => {
         );
         setDisabled(isEmailValid && password.length > 0);
 
-    }, [email, password])
+    }, [email, password]);
     return (
         <>
 

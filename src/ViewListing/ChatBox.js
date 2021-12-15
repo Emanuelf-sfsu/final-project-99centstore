@@ -1,41 +1,17 @@
 import React, { useEffect } from 'react'
 import { Button, Card, Form } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux';
-import { handlTextChange, insertMessage, submitMessage, updateMessages } from '../redux/actions/messageActions';
+import { handlTextChange, submitMessage, updateMessages } from '../redux/actions/messageActions';
 import axios from 'axios';
-
-// const MOCK_RESPONSE = {
-//     productId: '619de37d142b07d2495270e7',
-//     messages: [{ message: 'Hi, Is this Available', sender: 'USER' }, {
-//         message: 'Yes, It is available',
-//         sender: 'ADMIN'
-//     }]
-// }
 
 const ChatBox = ({ productId, productName }) => {
 
-    // const returnArrow = (user) => {
-    //     if (user === 'USER') {
-    //         return <div class="arrow-left"></div>
-    //     } else return <div class="arrow-right"></div>
-    // }
     const { text, chatData } = useSelector(state => state.messageReducer);
     const dispatch = useDispatch();
     const isAdmin = useSelector(state => state.userReducer.isAdmin);
 
 
     const onClickSend = () => {
-        // if (productId && productName) {
-        //     // debugger;
-        //     console.log(chatData);
-        //     const newMessages = [...chatData.messages || [], { message: text, sender: isAdmin ? 'ADMIN' : 'USER' }]
-        //     console.log(text);
-        //     console.log(newMessages)
-        //     dispatch(insertMessage({ message: text, sender: isAdmin ? 'ADMIN' : 'USER' }));
-        //     // setChatData({ ...chatData, messages: newMessages });
-        //     axios.post('/messanger/postMessage', { message: { productId, productName, messages: newMessages } })
-        //     dispatch(handlTextChange(''));
-        // }
         dispatch(submitMessage());
     }
     const handleKeyDown = (event) => {
