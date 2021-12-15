@@ -28,7 +28,7 @@ const ViewListing = () => {
     const handleShow = () => setShow(true);
 
     useEffect(() => {
-        const { id } = params
+        const { id } = params;
 
         if (id) {
             axios.get('/listingService/getListing', {
@@ -40,6 +40,10 @@ const ViewListing = () => {
                 setCurrentListing(data.data)
             });
 
+        }
+
+        if(isAdmin){
+            setShowChatBox(true);
         }
     }, [params]);
 
@@ -55,6 +59,10 @@ const ViewListing = () => {
     }
     /*console.log('currentLlisting id', currentListing._id);
     console.log('current listing title', currentListing.title);*/
+    useSelector(state => console.log('state',state));
+    console.log('isLoggedIn', isLoggedIn);
+    console.log('isAdmin',  isAdmin);
+    console.log('showChatBox', showChatBox);
 
     return (
         <>
@@ -71,8 +79,8 @@ const ViewListing = () => {
                     {isAdmin && <Button variant="danger" onClick={() => handleShow()}>Delete</Button>}
                 </Card.Body>
             </Card></Col>}
-                { currentListing && showChatBox && isLoggedIn && <Col className="mt-4"><ChatBox productId={currentListing._id} productName={currentListing.title} /></Col>}
-                
+                {currentListing && showChatBox && isLoggedIn && <Col className="mt-4"><ChatBox productId={currentListing._id} productName={currentListing.title} /></Col>}
+                               
             </Row>
 
             <Modal show={show} onHide={handleClose}>
