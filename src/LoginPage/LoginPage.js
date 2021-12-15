@@ -15,7 +15,6 @@ const LoginPage = () => {
         dispatch({ type: 'LOGIN_USER', payload: null })
         e.preventDefault();
         dispatch(loginUser());
-        dispatch(setAdmin());
         navigate('/');
     }
     const isLoggedIn = useSelector(state => state.userReducer.isLoggedIn);
