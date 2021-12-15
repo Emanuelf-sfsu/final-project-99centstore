@@ -19,10 +19,11 @@ const ViewListing = () => {
 
     console.log(params);
     const [currentListing, setCurrentListing] = useState(null);
-    const [showChatBox, setShowChatBox] = useState(true);
+    const [showChatBox, setShowChatBox] = useState(false);
     const [show, setShow] = useState(false);
+    
 
-    const isAdmin = useSelector(state => state.userReducer.isAdmin);
+    const { isAdmin, isLoggedIn } = useSelector(state => state.userReducer);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
@@ -52,6 +53,8 @@ const ViewListing = () => {
             toastError('Error in deleting a listing');
         })
     }
+    /*console.log('currentLlisting id', currentListing._id);
+    console.log('current listing title', currentListing.title);*/
 
     return (
         <>
@@ -62,12 +65,14 @@ const ViewListing = () => {
                     <Card.Text>
                         {currentListing.desc || ''}
                     </Card.Text>
-                    {!isAdmin && <Button variant="primary" onClick={() => setShowChatBox(true)}>Contact Seller</Button>}
+                    {!isAdmin && isLoggedIn && !showChatBox && <Button variant="primary" onClick={() => setShowChatBox(true)}>Contact Seller</Button>}
+                    {!isAdmin && isLoggedIn && showChatBox && <Button variant="primary" onClick={() => setShowChatBox(false)}>Close Messages</Button>}
                     {isAdmin && <Button variant="primary" style={{marginRight:"8px"}} onClick={() => navigate(`/editListing/${currentListing._id}`)}>Edit</Button>}
                     {isAdmin && <Button variant="danger" onClick={() => handleShow()}>Delete</Button>}
                 </Card.Body>
             </Card></Col>}
-                {currentListing && showChatBox && <Col className="mt-4"><ChatBox productId={currentListing._id} productName={currentListing.title} /></Col>}
+                { currentListing && showChatBox && isLoggedIn && <Col className="mt-4"><ChatBox productId={currentListing._id} productName={currentListing.title} /></Col>}
+                
             </Row>
 
             <Modal show={show} onHide={handleClose}>
@@ -84,6 +89,17 @@ const ViewListing = () => {
                     </Button>
                 </Modal.Footer>
             </Modal>
+
+            { !isLoggedIn &&
+                <Card.Body>
+                        <Card.Title>{"join now or log in to contact seller"}</Card.Title>
+                        <Card.Text>
+                            {"join now or log in to contact seller"}
+                        </Card.Text>
+                        
+                </Card.Body>    
+            }   
+
         </>
     )
 }
