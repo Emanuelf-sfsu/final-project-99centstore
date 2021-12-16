@@ -13,7 +13,7 @@ mongoClient.connect((err) => {
   if (err) console.log(err);
   const db = mongoClient.db(process.env.MONGOCLIENT_DB);
   const messagingCollection = process.env.MESSAGES_COLLECTION;
-  db.createCollection(messagingCollection).then(data=>{console.log('success');console.log(data)}).catch(err=>console.log(err));
+  db.createCollection(messagingCollection).then(data => { console.log('success'); console.log(data) }).catch(err => console.log(err));
 
   // move app logic in here
   const app = express();
@@ -24,10 +24,12 @@ mongoClient.connect((err) => {
     const { productId } = req.body.message;
     db.collection(messagingCollection).deleteOne({ productId }).then(() => {
       db.collection(messagingCollection).insertOne(req.body.message)
-        .then(() => console.log('db insert worked'))
+        .then(() => {
+          client.publish('testPublish', JSON.stringify({ ...req.body.message, type: 'message' }));
+          res.send('ok')
+        })
         .catch((e) => console.log(e));
-      client.publish('testPublish', JSON.stringify({ ...req.body.message, type: 'message' }));
-      res.send('ok');
+
     });
 
   });
