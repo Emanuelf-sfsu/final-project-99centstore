@@ -4,6 +4,7 @@
 .chat-box-card > .card-body {
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
 }
 .arrow-right {
     width: 0;

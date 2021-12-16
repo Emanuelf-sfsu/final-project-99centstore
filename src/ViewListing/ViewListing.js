@@ -78,6 +78,9 @@ const ViewListing = () => {
                     {isAdmin && <Button variant="primary" style={{marginRight:"8px"}} onClick={() => navigate(`/editListing/${currentListing._id}`)}>Edit</Button>}
                     {isAdmin && <Button variant="danger" onClick={() => handleShow()}>Delete</Button>}
                 </Card.Body>
+                <Card.Footer>
+                    <small className="text-muted">Price : ${currentListing.price}</small>
+                </Card.Footer>
             </Card></Col>}
                 {currentListing && showChatBox && isLoggedIn && <Col className="mt-4"><ChatBox productId={currentListing._id} productName={currentListing.title} /></Col>}
                                

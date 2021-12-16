@@ -43,8 +43,13 @@ mongoClient.connect((err) => {
     })
       .then((data) => {
         const obj = { title, desc, price, insertId }
+        db.collection(listingCollection).findOne({ '_id': insertId })
+          .then((result) => {
+            client.set(id, JSON.stringify(result));
+          })
+          .catch((e) => console.log(e));
         client.publish('testPublish', JSON.stringify({ ...obj, type: 'newListing' }));
-        res.send(obj);
+        res.send(data);
         // client.publish('testPublish', obj);
       }).catch(err => console.log("err"))
 
