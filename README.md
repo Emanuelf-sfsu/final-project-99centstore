@@ -8,3 +8,9 @@ Build all images and push to dockerhub
 - quick command `npm run deploy`
 - update docker compose to pull from your images
 - Run on ec2
+
+### Contributors
+-  vishals9711 Vishal Sharma 
+-  mgacoder
+-  kcstar Kyle Chen 
+-  Emanuelf-sfsu Emanuel F. 
