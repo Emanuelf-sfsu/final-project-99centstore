@@ -66,7 +66,7 @@ mongoClient.connect((err) => {
         producer.send(obj)
         res.send('ok');
     });
-    app.listen(process.env.IMAGE_SERVICE || 5003, () => console.log(`Image service on 5003`));
+    app.listen(process.env.IMAGE_SERVICE || 6003, () => console.log(`Image service on 6003`));
     // end app logic
 });
 

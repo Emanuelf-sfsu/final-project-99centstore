@@ -41,11 +41,11 @@ services:
       - webnet
     environment:
       - FRONT_END_HOST_URL=http://frontend:3000
-      - MESSANGER_HOST_URL=http://messanger:5000
-      - AUTH_SERVICE_URL=http://authservice:5001
-      - LISTING_SERVICE_URL=http://listingservice:5002
-      - IMAGE_SERVICE_URL=http://imageservice:5003
-      - WEBSOCKET_HOST=http://websocket:5500/websocket
+      - MESSANGER_HOST_URL=http://messanger:6000
+      - AUTH_SERVICE_URL=http://authservice:6001
+      - LISTING_SERVICE_URL=http://listingservice:6002
+      - IMAGE_SERVICE_URL=http://imageservice:6003
+      - WEBSOCKET_HOST=http://websocket:6500/websocket
   frontend:
     image: mgasfsu667/react-demo
     ports:
@@ -57,13 +57,13 @@ services:
     networks:
       - webnet
     environment:
-      - REACT_APP_WEBSOCKET_HOST=5500
+      - REACT_APP_WEBSOCKET_HOST=6500
   websocket:
     image: mgasfsu667/websocket-demo
     depends_on:
       - redis
     ports:
-      - "5500:5500"
+      - "6500:6500"
     deploy:
       replicas: 1
       restart_policy:
@@ -72,14 +72,14 @@ services:
       - webnet
     environment:
       - REDIS_HOST=redis
-      - WEBSOCKET_HOST=5500
+      - WEBSOCKET_HOST=6500
   messanger:
     image: mgasfsu667/messanger-demo
     depends_on:
       - redis
       - mongodb
     ports:
-      - "5000:5000"
+      - "6000:6000"
     deploy:
       replicas: 1
       restart_policy:
@@ -91,14 +91,14 @@ services:
       - MONGO_HOST=mongodb://mongodb:27017
       - MONGOCLIENT_DB=centStoreDB
       - MESSAGES_COLLECTION=messagesCollection
-      - MESSANGER_HOST=5000
+      - MESSANGER_HOST=6000
   imageservice:
     image: mgasfsu667/imageservice-demo
     depends_on:
       - redis
       - mongodb
     ports:
-      - "5003:5003"
+      - "6003:6003"
     deploy:
       replicas: 1
       restart_policy:
@@ -114,7 +114,7 @@ services:
       - redis
       - mongodb
     ports:
-      - "5001:5001"
+      - "6001:6001"
     deploy:
       replicas: 1
       restart_policy:
@@ -126,14 +126,14 @@ services:
       - MONGO_HOST=mongodb://mongodb:27017
       - MONGOCLIENT_DB=centStoreDB
       - USER_COLLECTION=userCollection
-      - AUTH_SERVICE=5001
+      - AUTH_SERVICE=6001
   jobworker:
     image: mgasfsu667/jobworker-demo
     depends_on:
       - redis
       - mongodb
     ports:
-      - "5004:5004"
+      - "6004:6004"
     deploy:
       replicas: 1
       restart_policy:
@@ -149,7 +149,7 @@ services:
       - redis
       - mongodb
     ports:
-      - "5002:5002"
+      - "6002:6002"
     deploy:
       replicas: 1
       restart_policy:
@@ -161,6 +161,6 @@ services:
       - MONGO_HOST=mongodb://mongodb:27017
       - MONGOCLIENT_DB=centStoreDB
       - LISTING_COLLECTION=listingCollection
-      - LISTING_SERVICE=5002
+      - LISTING_SERVICE=6002
 networks:
   webnet: null

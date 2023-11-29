@@ -9,7 +9,7 @@ const appServer = server.createServer(app);
 const apiProxy = httpProxy.createProxyServer(app);
 
 const wsProxy = httpProxy.createProxyServer({
-  target: process.env.WEBSOCKET_HOST || 'http://localhost:5500',
+  target: process.env.WEBSOCKET_HOST || 'http://localhost:6500',
   ws: true,
 });
 
@@ -25,13 +25,13 @@ wsProxy.on('error', (err, req, socket) => {
   socket.end();
 });
 console.log(process.env)
-const messangerHost = process.env.MESSANGER_HOST_URL || 'http://localhost:5000';
+const messangerHost = process.env.MESSANGER_HOST_URL || 'http://localhost:6000';
 console.log(`Messanger end proxies to: ${messangerHost}`);
 app.all('/messanger*', (req, res) => {
   apiProxy.web(req, res, { target: messangerHost });
 });
 
-const authService = process.env.AUTH_SERVICE_URL || 'http://localhost:5001';
+const authService = process.env.AUTH_SERVICE_URL || 'http://localhost:6001';
 console.log(`Auth Service end proxies to: ${authService}`);
 app.all('/authService/*', (req, res) => {
   // for frontend
@@ -39,7 +39,7 @@ app.all('/authService/*', (req, res) => {
 });
 
 
-const listingService = process.env.LISTING_SERVICE_URL || 'http://localhost:5002';
+const listingService = process.env.LISTING_SERVICE_URL || 'http://localhost:6002';
 console.log(`Listing Service end proxies to: ${listingService}`);
 app.all('/listingService*', (req, res) => {
   // for frontend
@@ -47,7 +47,7 @@ app.all('/listingService*', (req, res) => {
 });
 
 
-const imageService = process.env.IMAGE_SERVICE_URL || 'http://localhost:5003';
+const imageService = process.env.IMAGE_SERVICE_URL || 'http://localhost:6003';
 console.log(`Image Service end proxies to: ${imageService}`);
 app.all('/imageService*', (req, res) => {
   // for frontend
@@ -55,7 +55,7 @@ app.all('/imageService*', (req, res) => {
   apiProxy.web(req, res, { target: imageService });
 });
 
-const websocketHost = process.env.WEBSOCKET_HOST_URL || 'http://localhost:5500/websocket';
+const websocketHost = process.env.WEBSOCKET_HOST_URL || 'http://localhost:6500/websocket';
 console.log(`WebSocket end proxies to: ${websocketHost}`);
 app.all('/websocket*', (req, res) => {
   console.log('incoming ws');

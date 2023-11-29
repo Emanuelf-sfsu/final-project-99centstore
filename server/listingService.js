@@ -99,6 +99,6 @@ mongoClient.connect((err) => {
 
   });
 
-  app.listen(process.env.LISTING_SERVICE || 5002);
+  app.listen(process.env.LISTING_SERVICE || 6002);
   // end app logic
 });

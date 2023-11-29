@@ -46,7 +46,7 @@ mongoClient.connect((err) => {
 
   });
 
-  app.listen(process.env.MESSANGER_HOST || 5000);
+  app.listen(process.env.MESSANGER_HOST || 6000);
   // end app logic
 });
 
