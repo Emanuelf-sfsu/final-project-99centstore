@@ -27,11 +27,15 @@ const App = ({ store }) => {
             <Route path="/editListing/:id" element={<CreateListing />} />
           </>
         }
-        <Route path="/viewListing/:id" element={<ViewListing />} />
+        {/* <Route path="/viewListing/:id" element={<ViewListing />} />
         <Route exact path='/listing' element={<Listings />} />
         <Route path="/" element={<Navigate replace to="/listing" />} />
-        <Route path="/registration" element={<Registration store={store}/>} />
-      </Routes>
+        <Route path="/registration" element={<Registration store={store}/>} /> */}
+      </Routes> 
+      <h1 className="text-3xl font-bold underline">
+      Hello world!
+    </h1>
+
     </Container>
   );
 };

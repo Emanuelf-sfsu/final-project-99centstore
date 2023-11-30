@@ -18,7 +18,11 @@ const Listings = () => {
     }, []);
     return (
         <div className="listingPage">
-            <Row xs={1} md={4} lg={4} className="g-4">
+            <h1 className="text-3xl font-bold underline">
+      Hello world!
+    </h1>
+
+            <Row xs={1} md={4} lg={4} className="g-4" style="background:black;">
                 {listingData && listingData.map((data, index) => <Col key={index}><ListingCard {...data} /></Col>)}
             </Row>
         </div>

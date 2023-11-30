@@ -65,7 +65,12 @@ const ViewListing = () => {
     console.log('showChatBox', showChatBox);
 
     return (
+        
         <>
+        <h1 className="text-3xl font-bold underline">
+        Hello world!
+        </h1>
+
             <Row>{currentListing && <Col><Card style={{ width: '18rem' }} className="mt-4">
                 <Card.Img variant="top" src={currentListing.image500 || ''} />
                 <Card.Body>
